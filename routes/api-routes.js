@@ -52,8 +52,9 @@ module.exports = (app)=>{
                             })
                             .then((result)=>{
                                 var token = jwt.sign({usertype: 'parent', id: result.id}, key.secret, {expiresIn: '1h'});
+                                var name = result.name;
                                 // send token to client
-                                res.send({token: token});
+                                res.send({token: token, name: name});
                             });
                         });
                     });
@@ -102,8 +103,9 @@ module.exports = (app)=>{
                             })
                             .then((result)=>{
                                 var token = jwt.sign({usertype: 'shelter', id: result.id}, key.secret, {expiresIn: '1h'});
+                                var name = result.name;
                                 // send token to client
-                                res.send({token: token});
+                                res.send({token: token, name: name});
                             });
                         });
                     });

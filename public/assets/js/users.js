@@ -52,6 +52,7 @@ function initMap(data) {
     });
 }
 
+// prepare user's info
 function prepareUser(type) {
     var name = $('.name-signup').val().trim();
     var email = $('.email-signup').val().trim();
@@ -71,6 +72,7 @@ function prepareUser(type) {
     }
 }
 
+// send request to save user to database
 function signUser(type, name, email, password, address, phone) {
     // create new user object with details
     var newUser = {
@@ -92,21 +94,21 @@ function signUser(type, name, email, password, address, phone) {
             $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
         }
     })
-    .done((auth)=>{
-        // save token to localstorage
-        localStorage.setItem('token', auth.token);
-
-        var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
-        authUser(userName);
+    .done((authData)=>{
+        authUser(authData);
     });
 }
 
 // send request to authenticate user
-function authUser(name) {
+function authUser(data) {
+    // save token to localstorage
+    localStorage.setItem('token', data.token);
+
     var token = localStorage.getItem('token'); // get token from localstorage
     var tokenObj = {
         token: token
     };
+    var name = data.name.replace(/\s/g,''); // remove spaces from user's name
 
     // send user's authentication request to server
     $.ajax({
@@ -130,12 +132,14 @@ function authUser(name) {
 $(()=>{
     var message = '';
 
+    // open login box
     $('.link-login').on('click', ()=>{
         $('.user-account').show();
         $('.logIn').show();
         $('.signUp').hide();
     });
 
+    // open signup box
     $('.link-signup').on('click', ()=>{
         $('.user-account').show();
         $('.logIn').hide();
@@ -143,6 +147,7 @@ $(()=>{
         $('.btn-signup-shelter').hide();
     });
 
+    // show parent from
     $('.btn-parent').on('click', ()=>{
         // switch button colours
         $('.btn-parent').attr('class', 'btn btn-primary btn-parent');
@@ -157,6 +162,7 @@ $(()=>{
         $('.shelter-title').hide();
     });
 
+    // show shelter form
     $('.btn-shelter').on('click', ()=>{
         // switch button colours
         $('.btn-parent').attr('class', 'btn btn-secondary btn-parent');
@@ -177,7 +183,6 @@ $(()=>{
         prepareUser('parent');
     });
        
-
     // sign up as shelter
     $('.btn-signup-shelter').on('click', (e)=>{
         e.preventDefault();
@@ -205,34 +210,8 @@ $(()=>{
                 $('.login-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
             }
         })
-        .done((auth)=>{
-            // save token to localstorage
-            localStorage.setItem('token', auth.token);
-            
-            var userName = auth.name.replace(/\s/g,''); // remove spaces from user's name
-            var token = localStorage.getItem('token'); // get token from localstorage
-            var tokenObj = {
-                token: token
-            }
-
-            // send user's authentication request to server
-            $.ajax({
-                url: '/auth/' + userName,
-                method: 'POST',
-                headers: tokenObj
-            })
-            .done((content)=>{
-                console.log(content);
-                $('body').html(content);
-                $.ajax({
-                    url: '/map',
-                    method: 'GET',
-                    headers: tokenObj
-                })
-                .done((userOnMap)=>{
-                    initMap(userOnMap);
-                });
-            });
+        .done((authData)=>{
+            authUser(authData);
         });
     });
 
@@ -249,7 +228,7 @@ $(()=>{
         });
     });
 
-    // change pass-word
+    // change password
     $('.link-setting').on('click', ()=>{
         $('.user-setting').toggle();
     });
