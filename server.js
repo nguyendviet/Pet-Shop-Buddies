@@ -1,7 +1,6 @@
 const express = require('express');
 const bParse = require('body-parser');
 const eHandle = require('express-handlebars');
-const jwt = require('jsonwebtoken');
 // use models to sync data
 const db = require('./models');
 // set up express
@@ -73,8 +72,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'peterpass',
             address: '1416 12th St NW, Washington, DC 20005',
             phone: '2022347387',
-            cat: false,
-            dog: false,
             latitude: 38.9090194,
             longitude: -77.0305502
         },
@@ -84,8 +81,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'angrypan',
             address: '1536 16th St NW, Washington, DC 20036',
             phone: '2024837382',
-            cat: true,
-            dog: true,
             latitude: 38.9109778,
             longitude: -77.0390737
         },
@@ -95,8 +90,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'adampass',
             address: '2112 18 St NW #1, Washington, DC 20009',
             phone: '2026387470',
-            cat: true,
-            dog: false,
             latitude: 38.9183334,
             longitude: -77.0440605
         },
@@ -106,8 +99,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'davidpass',
             address: '2022 P St NW, Washington, DC 20036',
             phone: '2024662211',
-            cat: false,
-            dog: true,
             latitude: 38.9094284,
             longitude: -77.0480979
         },
@@ -117,8 +108,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'harrypass',
             address: '1000 29th St NW # T100, Washington, DC 20007',
             phone: '2029650500',
-            cat: true,
-            dog: false,
             latitude: 38.9029249,
             longitude: -77.0604903
         },
@@ -128,8 +117,6 @@ db.sequelize.sync({force: true}).then(()=>{
             password: 'cadiepass',
             address: '601 F St NW, Washington, DC 20004',
             phone: '2026283200',
-            cat: false,
-            dog: true,
             latitude: 38.898129,
             longitude: -77.0231517
         }
