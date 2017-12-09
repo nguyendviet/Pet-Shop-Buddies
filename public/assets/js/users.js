@@ -53,6 +53,77 @@ function initMap(data) {
     });
 }
 
+function prepareUser(type) {
+    var name = $('.name-signup').val().trim();
+    var email = $('.email-signup').val().trim();
+    var password = $('.password-signup').val().trim();
+    var address = $('.address-signup').val().trim();
+    var phone = $('.phone-signup').val().trim();
+
+    // check if any field is left empty
+    if (!name || !email || !password || !address || !phone) {
+        message = 'All fields are required.';
+        $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
+        return;
+    }
+
+    // if all fields are filled
+    else {
+        signUser(type, name, email, password, address, phone);
+    }
+}
+
+function signUser(type, name, email, password, address, phone) {
+    // create new user object with details
+    var newUser = {
+        usertype: type,
+        name: name,
+        email: email,
+        password: password,
+        address: address,
+        phone: phone
+    };
+
+    // send signup request with new user's details
+    $.ajax({
+        url: '/signup',
+        method: 'POST',
+        data: newUser,
+        error: (err)=>{
+            message = err.responseJSON.message;
+            $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
+        }
+    })
+    .done((auth)=>{
+        // save token to localstorage
+        localStorage.setItem('token', auth.token);
+
+        var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
+        var token = localStorage.getItem('token'); // get token from localstorage
+        var tokenObj = {
+            token: token
+        }
+
+        // send user's authentication request to server
+        $.ajax({
+            url: '/auth/' + userName,
+            method: 'POST',
+            headers: tokenObj
+        })
+        .done((content)=>{
+            $('body').html(content);
+            $.ajax({
+                url: '/map',
+                method: 'GET',
+                headers: tokenObj
+            })
+            .done((userOnMap)=>{
+                initMap(userOnMap);
+            });
+        });
+    });
+}
+
 $(()=>{
     var message = '';
 
@@ -100,71 +171,7 @@ $(()=>{
     // sign up as parent
     $('.btn-signup-parent').on('click', (e)=>{
         e.preventDefault();
-
-        var name = $('.name-signup').val().trim();
-        var email = $('.email-signup').val().trim();
-        var password = $('.password-signup').val().trim();
-        var address = $('.address-signup').val().trim();
-        var phone = $('.phone-signup').val().trim();
-
-        // check if any field is left empty
-        if (!name || !email || !password || !address || !phone) {
-            message = 'All fields are required.';
-            $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
-            return;
-        }
-
-        // if all fields are filled
-        else {
-            // create new user object with details
-            var newUser = {
-                usertype: 'parent',
-                name: name,
-                email: email,
-                password: password,
-                address: address,
-                phone: phone
-            };
-
-            // send signup request with new user's details
-            $.ajax({
-                url: '/signup',
-                method: 'POST',
-                data: newUser,
-                error: (err)=>{
-                    message = err.responseJSON.message;
-                    $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
-                }
-            })
-            .done((auth)=>{
-                // save token to localstorage
-                localStorage.setItem('token', auth.token);
-
-                var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
-                var token = localStorage.getItem('token'); // get token from localstorage
-                var tokenObj = {
-                    token: token
-                }
-
-                // send user's authentication request to server
-                $.ajax({
-                    url: '/auth/' + userName,
-                    method: 'POST',
-                    headers: tokenObj
-                })
-                .done((content)=>{
-                    $('body').html(content);
-                    $.ajax({
-                        url: '/map',
-                        method: 'GET',
-                        headers: tokenObj
-                    })
-                    .done((userOnMap)=>{
-                        initMap(userOnMap);
-                    });
-                });
-            });
-        }
+        prepareUser('parent');
     });
        
 
