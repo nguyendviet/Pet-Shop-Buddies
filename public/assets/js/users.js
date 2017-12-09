@@ -75,8 +75,6 @@ $(()=>{
         $('.btn-shelter').attr('class', 'btn btn-secondary btn-shelter');
         // show signup form to parent
         $('.signUp').show();
-        // show animal options
-        $('.animal').show();
         // show the right sign up button
         $('.btn-signup-parent').show();
         $('.btn-signup-shelter').hide();
@@ -91,8 +89,6 @@ $(()=>{
         $('.btn-shelter').attr('class', 'btn btn-primary btn-shelter');
         // show signup form for shelter
         $('.signUp').show();
-        // hide animal options
-        $('.animal').hide();
         // show the right sign up button
         $('.btn-signup-parent').hide();
         $('.btn-signup-shelter').show();
@@ -110,19 +106,6 @@ $(()=>{
         var password = $('.password-signup').val().trim();
         var address = $('.address-signup').val().trim();
         var phone = $('.phone-signup').val().trim();
-        var cat = false;
-        var dog = false;
-        
-
-        // if cat checkbox is checked
-        if ($('.cat-signup').is(':checked')) {
-            cat = true;
-        }
-
-        // if dog checkbox is checked
-        if ($('.dog-signup').is(':checked')) {
-            dog = true;
-        }
 
         // check if any field is left empty
         if (!name || !email || !password || !address || !phone) {
@@ -133,74 +116,54 @@ $(()=>{
 
         // if all fields are filled
         else {
+            // create new user object with details
+            var newUser = {
+                usertype: 'parent',
+                name: name,
+                email: email,
+                password: password,
+                address: address,
+                phone: phone
+            };
 
-            var addressForGoogle = address.replace(/\s/g, '+');
-            //this does the geocoding for the address, turning it into a long and lat. 
+            // send signup request with new user's details
             $.ajax({
-                url:  "https://maps.googleapis.com/maps/api/geocode/json?address="+ addressForGoogle +"&key="+ geocodeApi,
-                method: "GET"
+                url: '/signup',
+                method: 'POST',
+                data: newUser,
+                error: (err)=>{
+                    message = err.responseJSON.message;
+                    $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
+                }
             })
-            .done(function(response) {
-                //latLong variable reaches in for the exact lat and long that comes back for the specific zipcode
-                var latLong =  response.results[0].geometry.location;
-                console.log(latLong);
-                var lat = latLong.lat;
-                var long = latLong.lng;
-                // create new user object with details
-                var newUser = {
-                    usertype: 'parent',
-                    name: name,
-                    email: email,
-                    password: password,
-                    address: address,
-                    phone: phone,
-                    cat: cat,
-                    dog: dog,
-                    latitude: lat,
-                    longitude: long
-                };
+            .done((auth)=>{
+                // save token to localstorage
+                localStorage.setItem('token', auth.token);
 
-                // send signup request with new user's details
+                var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
+                var token = localStorage.getItem('token'); // get token from localstorage
+                var tokenObj = {
+                    token: token
+                }
+
+                // send user's authentication request to server
                 $.ajax({
-                    url: '/signup',
+                    url: '/auth/' + userName,
                     method: 'POST',
-                    data: newUser,
-                    error: (err)=>{
-                        message = err.responseJSON.message;
-                        $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
-                    }
+                    headers: tokenObj
                 })
-                .done((auth)=>{
-                    // save token to localstorage
-                    localStorage.setItem('token', auth.token);
-
-                    var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
-                    var token = localStorage.getItem('token'); // get token from localstorage
-                    var tokenObj = {
-                        token: token
-                    }
-
-                    // send user's authentication request to server
+                .done((content)=>{
+                    $('body').html(content);
                     $.ajax({
-                        url: '/auth/' + userName,
-                        method: 'POST',
+                        url: '/map',
+                        method: 'GET',
                         headers: tokenObj
                     })
-                    .done((content)=>{
-                        $('body').html(content);
-                        $.ajax({
-                            url: '/map',
-                            method: 'GET',
-                            headers: tokenObj
-                        })
-                        .done((userOnMap)=>{
-                            console.log('this is map request response: ' + JSON.stringify(userOnMap));
-                            console.log('run map function here'); // TO DO <===================================================
-                            initMap(userOnMap);
-                        });
+                    .done((userOnMap)=>{
+                        initMap(userOnMap);
                     });
                 });
-        });
+            });
         }
     });
        
@@ -340,8 +303,6 @@ $(()=>{
                     headers: tokenObj
                 })
                 .done((userOnMap)=>{
-                    console.log('this is map request response: ' + JSON.stringify(userOnMap));
-                    console.log('run map function here'); // TO DO <===================================================
                     initMap(userOnMap);
                 });
             });

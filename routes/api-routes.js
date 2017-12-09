@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
-var key = require('./keys.js');
+const request = require('request');
+var key = require('../config/keys.js');
 const saltRounds = 10;
 
 module.exports = (app)=>{
@@ -25,27 +26,35 @@ module.exports = (app)=>{
                 // if email not registered
                 else {
                     var password = req.body.password;
-                    
-                    // encrypt password before saving
-                    bcrypt.hash(password, saltRounds, (err, hash)=>{
-                        if (err) throw err;
-                        
-                        // save user's info into database
-                        db.Parent.create({
-                            name: req.body.name,
-                            email: req.body.email,
-                            password: hash,
-                            address: req.body.address,
-                            phone: req.body.phone,
-                            cat: req.body.cat,
-                            dog: req.body.dog,
-                            longitude: req.body.longitude,
-                            latitude: req.body.latitude
-                        })
-                        .then((result)=>{
-                            var token = jwt.sign({usertype: 'parent', id: result.id}, key.secret, {expiresIn: '1h'});
-                            // send token to client
-                            res.send({token: token});
+                    var addressLink = req.body.address.replace(/\s/g, '+');
+
+                    // get user's latitude and longitude
+                    request
+                    .get('https://maps.googleapis.com/maps/api/geocode/json?address='+ addressLink + '&key=' + key.map, (error, geoResult, body)=>{
+                        var bodyObj = JSON.parse(body);
+                        var geoLoc = bodyObj.results[0].geometry.location;
+                        var geoLat = geoLoc.lat;
+                        var geoLng = geoLoc.lng;
+
+                        // encrypt password before saving
+                        bcrypt.hash(password, saltRounds, (err, hash)=>{
+                            if (err) throw err;
+                            
+                            // save user's info into database
+                            db.Parent.create({
+                                name: req.body.name,
+                                email: req.body.email,
+                                password: hash,
+                                address: req.body.address,
+                                phone: req.body.phone,
+                                latitude: geoLat,
+                                longitude: geoLng
+                            })
+                            .then((result)=>{
+                                var token = jwt.sign({usertype: 'parent', id: result.id}, key.secret, {expiresIn: '1h'});
+                                // send token to client
+                                res.send({token: token});
+                            });
                         });
                     });
                 }
@@ -67,25 +76,35 @@ module.exports = (app)=>{
                 // if email not registered
                 else {
                     var password = req.body.password;
+                    var addressLink = req.body.address.replace(/\s/g, '+');
                     
-                    // encrypt password before saving
-                    bcrypt.hash(password, saltRounds, (err, hash)=>{
-                        if (err) throw err;
-                        
-                        // save user's info into database
-                        db.Shelter.create({
-                            name: req.body.name,
-                            email: req.body.email,
-                            password: hash,
-                            address: req.body.address,
-                            phone: req.body.phone,
-                            longitude: req.body.longitude,
-                            latitude: req.body.latitude
-                        })
-                        .then((result)=>{
-                            var token = jwt.sign({usertype: 'shelter', id: result.id}, key.secret, {expiresIn: '1h'});
-                            // send token to client
-                            res.send({token: token});
+                    // get user's latitude and longitude
+                    request
+                    .get('https://maps.googleapis.com/maps/api/geocode/json?address='+ addressLink + '&key=' + key.map, (error, geoResult, body)=>{
+                        var bodyObj = JSON.parse(body);
+                        var geoLoc = bodyObj.results[0].geometry.location;
+                        var geoLat = geoLoc.lat;
+                        var geoLng = geoLoc.lng;
+
+                        // encrypt password before saving
+                        bcrypt.hash(password, saltRounds, (err, hash)=>{
+                            if (err) throw err;
+                            
+                            // save user's info into database
+                            db.Shelter.create({
+                                name: req.body.name,
+                                email: req.body.email,
+                                password: hash,
+                                address: req.body.address,
+                                phone: req.body.phone,
+                                latitude: geoLat,
+                                longitude: geoLng
+                            })
+                            .then((result)=>{
+                                var token = jwt.sign({usertype: 'shelter', id: result.id}, key.secret, {expiresIn: '1h'});
+                                // send token to client
+                                res.send({token: token});
+                            });
                         });
                     });
                 }
@@ -277,6 +296,40 @@ module.exports = (app)=>{
         }
         else {
             res.redirect('/user/' + token);
+        }
+    });
+
+    // handle map request
+    app.get('/map', (req, res)=>{
+        var token = req.headers.token;
+        
+        // check if token exists
+        if (!token) {
+            res.status(401).redirect('/error');
+        }
+        else {
+            // decode token
+            jwt.verify(token, key.secret, (err, decoded)=>{
+                if (err) {
+                    res.status(401).redirect('/error');
+                };
+
+                var usertype = decoded.usertype;
+
+                // user is a parent
+                if (usertype == 'parent') {
+                    db.Shelter.findAll({})
+                    .then((shelters)=>{
+                        res.json(shelters)
+                    });
+                }
+                else {
+                    db.Parent.findAll({})
+                    .then((parents)=>{
+                        res.json(parents)
+                    });
+                }
+            });
         }
     });
 };

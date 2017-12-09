@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const db = require('../models');
-var key = require('./keys.js');
+var key = require('../config/keys.js');
 
 module.exports = (app)=>{
     app.get('/', (req, res)=>{
@@ -61,39 +61,6 @@ module.exports = (app)=>{
                         };
 
                         res.render('user', userObj);
-                    });
-                }
-            });
-        }
-    });
-
-    app.get('/map', (req, res)=>{
-        var token = req.headers.token;
-        
-        // check if token exists
-        if (!token) {
-            res.status(401).redirect('/error');
-        }
-        else {
-            // decode token
-            jwt.verify(token, key.secret, (err, decoded)=>{
-                if (err) {
-                    res.status(401).redirect('/error');
-                };
-
-                var usertype = decoded.usertype;
-
-                // user is a parent
-                if (usertype == 'parent') {
-                    db.Shelter.findAll({})
-                    .then((shelters)=>{
-                        res.json(shelters)
-                    });
-                }
-                else {
-                    db.Parent.findAll({})
-                    .then((parents)=>{
-                        res.json(parents)
                     });
                 }
             });
