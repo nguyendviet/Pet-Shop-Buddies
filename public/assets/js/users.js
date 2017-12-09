@@ -15,7 +15,6 @@ function initMap(data) {
             zoom: 13,
             center: myPlace
         });
-        
 
         // display user's location on map with marker
         var marker = new google.maps.Marker({
@@ -117,6 +116,8 @@ function authUser(data) {
         headers: tokenObj
     })
     .done((content)=>{
+        // window.location.replace('/user/' + name);
+
         $('body').html(content);
         $.ajax({
             url: '/map',

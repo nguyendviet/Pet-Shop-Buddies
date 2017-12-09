@@ -297,7 +297,62 @@ module.exports = (app)=>{
             res.status(401).redirect('/error');
         }
         else {
-            res.redirect('/user/' + token);
+            // res.redirect('/user/' + token);
+            // check if token exists
+            if (!token) {
+                res.status(401).redirect('/error');
+            }
+            else {
+                // decode token
+                jwt.verify(token, key.secret, (err, decoded)=>{
+                    if (err) {
+                        res.status(401).redirect('/error');
+                    };
+
+                    var usertype = decoded.usertype;
+
+                    // user is a parent
+                    if (usertype == 'parent') {
+                        db.Parent.findAll({
+                            where: {
+                                id: decoded.id
+                            }
+                        })
+                        .then((parent)=>{
+                            var parentName = parent[0].name;
+                            var parentLat = parent[0].latitude;
+                            var parentLong = parent[0].longitude;
+                            var userObj = {
+                                name: parentName,
+                                latitude: parentLat,
+                                longitude: parentLong,
+                            };
+
+                            res.render('user', userObj);
+                        });
+                    }
+                    // user is a shelter
+                    else {
+                        db.Shelter.findAll({
+                            where: {
+                                id: decoded.id
+                            }
+                        })
+                        .then((shelter)=>{
+                            var shelterName = shelter[0].name;
+                            var shelterLat = shelter[0].latitude;
+                            var shelterLong = shelter[0].longitude;
+                            var userObj = {
+                                name: shelterName,
+                                latitude: shelterLat,
+                                longitude: shelterLong,
+                            };
+
+                            res.render('user', userObj);
+                        });
+                    }
+                });
+            }
         }
     });
 
