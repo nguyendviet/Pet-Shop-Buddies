@@ -1,0 +1,38 @@
+<div class="row justify-content-center py-2 top-bar">
+    <div class="col-4 col-md-2 text-center">
+        <a href="/"><i class="fa fa-paw" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-4 col-md-2 link-logout">Logout</div>
+    <div class="col-4 col-md-2 link-setting">Settings</div>
+</div>
+
+<div class="container text-center big-title"><h1 class="display-4">Hi {{this.name}}!</h1></div>
+<div class="myPlace" data-lat="{{this.latitude}}" data-long="{{this.longitude}}"></div>
+
+<div class="container text-center py-1 user-setting">
+    <form>
+        <p>Change password</p>
+        <div class="change-password-notice"></div>
+
+        <fieldset class="form-group">
+            <input type="password" name="password" placeholder="New Password" class="form-control password-new1">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="password" name="password" placeholder="Retype New Password" class="form-control password-new2">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <input type="submit" name="signUp" value="Save Password" class="btn btn-success btn-save-password">
+        </fieldset>
+    </form>
+
+    <button type="button" class="btn btn-danger btn-delete-account">Delete Account</button>
+
+    <div class="confirm-delete">
+        <p>Are you sure you want to delete your account?</p>
+        <button type="button" class="btn btn-danger btn-confirm-delete-account">Confirm</button>
+        <button type="button" class="btn btn-warning btn-cancel-delete-account">Cancel</button>
+    </div>
+</div>
+
+<div id="map"></div>

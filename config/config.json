@@ -1,0 +1,17 @@
+{
+    "development": {
+      "username": "root",
+      "password": "root",
+      "database": "save_meow",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "test": {
+      "use_env_variable": "JAWSDB_URL",
+      "dialect": "mysql"
+    },
+    "production": {
+      "use_env_variable": "JAWSDB_URL",
+      "dialect": "mysql"
+    }
+}

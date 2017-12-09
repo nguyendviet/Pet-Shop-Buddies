@@ -1,0 +1,39 @@
+{
+  "name": "save-meow",
+  "version": "1.0.0",
+  "description": "A full stack app that helps people save cats from being put down.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyendviet/Save-Meow.git"
+  },
+  "keywords": [
+    "mysql",
+    "express",
+    "handlebars",
+    "nodejs"
+  ],
+  "author": "Viet Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyendviet/Save-Meow/issues"
+  },
+  "homepage": "https://github.com/nguyendviet/Save-Meow#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "jsonwebtoken": "^8.1.0",
+    "mocha": "^4.0.1",
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
+    "nightmare": "^2.10.0",
+    "sequelize": "^4.27.0"
+  }
+}

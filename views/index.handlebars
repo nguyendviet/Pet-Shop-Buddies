@@ -1,0 +1,61 @@
+<div class="row justify-content-center py-2 top-bar">
+    <div class="col-4 col-md-2 text-center">
+        <a href="/"><i class="fa fa-paw" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-4 col-md-2 link-signup">Signup</div>
+    <div class="col-4 col-md-2 link-login">Login</div>
+</div>
+
+<div class="container text-center big-title"><h1 class="display-1">Save Meow</h1></div>
+
+<div class="container text-center user-account">
+
+    <form class="py-1 logIn">
+        <h3>Login</h3>
+        <div class="login-notice"></div>
+
+        <fieldset class="form-group">
+            <input type="email" name="email" placeholder="Email" class="form-control email-login">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="password" name="password" placeholder="Password" class="form-control password-login">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <input type="hidden" name="signUp">
+            <input type="submit" name="logIn" value="Log In" class="btn btn-success btn-login">
+        </fieldset>
+    </form>
+
+    <form class="py-1 signUp">
+        <h3>Signup</h3>
+        <div class="signup-notice"></div>
+
+        <button type="button" class="btn btn-secondary btn-parent active">As a Parent</button>
+        <button type="button" class="btn btn-secondary btn-shelter">As a Shelter</button>
+
+        <h4 class="parent-title">Parent Signup Form</h4>
+        <h4 class="shelter-title">Shelter Signup Form</h4>
+
+        <fieldset class="form-group">
+            <input type="text" name="name" placeholder="Name" class="form-control name-signup">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="email" name="email" placeholder="Email" class="form-control email-signup">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="password" name="password" placeholder="Password" class="form-control password-signup">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="text" name="address" placeholder="Address" class="form-control address-signup">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="tel" name="phone" placeholder="Phone number" class="form-control phone-signup">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <input type="submit" name="signUp" value="Sign Up" class="btn btn-success btn-signup-parent">
+            <input type="submit" name="signUp" value="Sign Up" class="btn btn-success btn-signup-shelter">
+        </fieldset>
+    </form>
+</div>
