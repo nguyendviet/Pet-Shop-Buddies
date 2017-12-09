@@ -1,5 +1,4 @@
-var geocodeApi = "AIzaSyAQRPht-fE8RI3ZmfR6ckJ9rwW8WRPok8I";
-
+// display google map
 function initMap(data) {
     $.ajax({
         url: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAQRPht-fE8RI3ZmfR6ckJ9rwW8WRPok8I',
@@ -66,7 +65,6 @@ function prepareUser(type) {
         $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
         return;
     }
-
     // if all fields are filled
     else {
         signUser(type, name, email, password, address, phone);
@@ -99,27 +97,32 @@ function signUser(type, name, email, password, address, phone) {
         localStorage.setItem('token', auth.token);
 
         var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
-        var token = localStorage.getItem('token'); // get token from localstorage
-        var tokenObj = {
-            token: token
-        }
+        authUser(userName);
+    });
+}
 
-        // send user's authentication request to server
+// send request to authenticate user
+function authUser(name) {
+    var token = localStorage.getItem('token'); // get token from localstorage
+    var tokenObj = {
+        token: token
+    };
+
+    // send user's authentication request to server
+    $.ajax({
+        url: '/auth/' + name,
+        method: 'POST',
+        headers: tokenObj
+    })
+    .done((content)=>{
+        $('body').html(content);
         $.ajax({
-            url: '/auth/' + userName,
-            method: 'POST',
+            url: '/map',
+            method: 'GET',
             headers: tokenObj
         })
-        .done((content)=>{
-            $('body').html(content);
-            $.ajax({
-                url: '/map',
-                method: 'GET',
-                headers: tokenObj
-            })
-            .done((userOnMap)=>{
-                initMap(userOnMap);
-            });
+        .done((userOnMap)=>{
+            initMap(userOnMap);
         });
     });
 }
@@ -178,90 +181,7 @@ $(()=>{
     // sign up as shelter
     $('.btn-signup-shelter').on('click', (e)=>{
         e.preventDefault();
-
-        var name = $('.name-signup').val().trim();
-        var email = $('.email-signup').val().trim();
-        var password = $('.password-signup').val().trim();
-        var address = $('.address-signup').val().trim();
-        var phone = $('.phone-signup').val().trim();
-
-        // check if any field is left empty
-        if (!name || !email || !password || !address || !phone) {
-            message = 'All fields are required.';
-            $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
-            return;
-        }
-        
-        
-        // if all fields are filled
-        else {
-        var addressForGoogle = address.replace(/\s/g, '+');
-        //this does the geocoding for the address, turning it into a long and lat. 
-            $.ajax({
-            url:  "https://maps.googleapis.com/maps/api/geocode/json?address="+ addressForGoogle +"&key="+ geocodeApi,
-            method: "GET"
-                }).done(function(response) {
-                //latLong variable reaches in for the exact lat and long that comes back for the specific zipcode
-                var latLong =  response.results[0].geometry.location;
-                console.log(latLong);
-                var lat = latLong.lat;
-                var long = latLong.lng;
-
-            // create new user object with details
-            var newUser = {
-                usertype: 'shelter',
-                name: name,
-                email: email,
-                password: password,
-                address: address,
-                phone: phone,
-                latitude: lat,
-                longitude: long
-            };
-
-            // send signup request with new user's details
-            $.ajax({
-                url: '/signup',
-                method: 'POST',
-                data: newUser,
-                error: (err)=>{
-                    message = err.responseJSON.message;
-                    $('.signup-notice').html('<div class="alert alert-danger" role="alert">' + message + '</div>');
-                }
-            })
-            .done((auth)=>{
-                // save token to localstorage
-                localStorage.setItem('token', auth.token);
-                
-                var userName = newUser.name.replace(/\s/g,''); // remove spaces from user's name
-                var token = localStorage.getItem('token'); // get token from localstorage
-                var tokenObj = {
-                    token: token
-                }
-
-                // send user's authentication request to server
-                $.ajax({
-                    url: '/auth/' + userName,
-                    method: 'POST',
-                    headers: tokenObj
-                })
-                .done((content)=>{
-                    console.log(content);
-                    $('body').html(content);
-                    $.ajax({
-                        url: '/map',
-                        method: 'GET',
-                        headers: tokenObj
-                    })
-                    .done((userOnMap)=>{
-                        console.log('this is map request response: ' + JSON.stringify(userOnMap));
-                        console.log('run map function here'); // TO DO <===================================================
-                        initMap(userOnMap);
-                    });
-                });
-            });
-        });
-        }
+        prepareUser('shelter');
     });
 
     // log in
