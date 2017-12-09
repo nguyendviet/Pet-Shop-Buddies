@@ -123,6 +123,6 @@ db.sequelize.sync({force: true}).then(()=>{
     ]);
     
     app.listen(PORT, ()=>{
-        console.log('Foster-Me listening on port ' + PORT);
+        console.log('Save-Meow listening on port ' + PORT);
     });
 });
