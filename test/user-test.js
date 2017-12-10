@@ -1,7 +1,7 @@
 var Nightmare = require('nightmare');
 var expect = require('chai').expect;
 
-describe('Foster Me - parent user', function() {
+describe('Pet Shop Buddies - user', function() {
   
     this.timeout(30000);
 
@@ -20,7 +20,7 @@ describe('Foster Me - parent user', function() {
         });
     });
 
-    it('should singup a foster parent to database, then try to change password but fail, then logout', (done)=>{
+    it('should singup a user to database, then try to change password but fail, then logout', (done)=>{
         Nightmare({show: true})
         .goto('http://localhost:3000/')
         .wait('.link-signup')

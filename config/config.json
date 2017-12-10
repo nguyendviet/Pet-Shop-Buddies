@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "root",
-      "database": "save_meow",
+      "database": "pet_shop",
       "host": "localhost",
       "dialect": "mysql"
     },

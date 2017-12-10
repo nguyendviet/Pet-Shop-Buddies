@@ -145,49 +145,49 @@ $(()=>{
         $('.user-account').show();
         $('.logIn').hide();
         $('.signUp').show();
-        $('.btn-signup-shelter').hide();
+        $('.btn-signup-shop').hide();
     });
 
-    // show parent from
-    $('.btn-parent').on('click', ()=>{
+    // show user from
+    $('.btn-user').on('click', ()=>{
         // switch button colours
-        $('.btn-parent').attr('class', 'btn btn-primary btn-parent');
-        $('.btn-shelter').attr('class', 'btn btn-secondary btn-shelter');
-        // show signup form to parent
+        $('.btn-user').attr('class', 'btn btn-primary btn-user');
+        $('.btn-shop').attr('class', 'btn btn-secondary btn-shop');
+        // show signup form to user
         $('.signUp').show();
         // show the right sign up button
-        $('.btn-signup-parent').show();
-        $('.btn-signup-shelter').hide();
+        $('.btn-signup-user').show();
+        $('.btn-signup-shop').hide();
         // switch form title
-        $('.parent-title').show();
-        $('.shelter-title').hide();
+        $('.user-title').show();
+        $('.shop-title').hide();
     });
 
-    // show shelter form
-    $('.btn-shelter').on('click', ()=>{
+    // show shop form
+    $('.btn-shop').on('click', ()=>{
         // switch button colours
-        $('.btn-parent').attr('class', 'btn btn-secondary btn-parent');
-        $('.btn-shelter').attr('class', 'btn btn-primary btn-shelter');
-        // show signup form for shelter
+        $('.btn-user').attr('class', 'btn btn-secondary btn-user');
+        $('.btn-shop').attr('class', 'btn btn-primary btn-shop');
+        // show signup form for shop
         $('.signUp').show();
         // show the right sign up button
-        $('.btn-signup-parent').hide();
-        $('.btn-signup-shelter').show();
+        $('.btn-signup-user').hide();
+        $('.btn-signup-shop').show();
         // switch form title
-        $('.parent-title').hide();
-        $('.shelter-title').show();
+        $('.user-title').hide();
+        $('.shop-title').show();
     });
 
-    // sign up as parent
-    $('.btn-signup-parent').on('click', (e)=>{
+    // sign up as user
+    $('.btn-signup-user').on('click', (e)=>{
         e.preventDefault();
-        prepareUser('parent');
+        prepareUser('user');
     });
        
-    // sign up as shelter
-    $('.btn-signup-shelter').on('click', (e)=>{
+    // sign up as shop
+    $('.btn-signup-shop').on('click', (e)=>{
         e.preventDefault();
-        prepareUser('shelter');
+        prepareUser('shop');
     });
 
     // log in

@@ -1,11 +1,11 @@
 var Nightmare = require('nightmare');
 var expect = require('chai').expect;
 
-describe('Foster Me - shelter user', function() {
+describe('Pet Shop Buddies - shop', function() {
   
     this.timeout(30000);
 
-    it('should signup an animal shelter then logout', (done)=>{
+    it('should signup a pet shop then logout', (done)=>{
         Nightmare({show: true})
         .goto('http://localhost:3000/')
         .wait('.link-signup')
@@ -27,7 +27,7 @@ describe('Foster Me - shelter user', function() {
         });
     });
 
-    it('should login as an animal shelter then delete account', (done)=>{
+    it('should login as a pet shop then delete account', (done)=>{
         Nightmare({show: true})
         .goto('http://localhost:3000/')
         .wait('.link-login')

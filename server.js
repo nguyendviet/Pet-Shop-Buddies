@@ -24,8 +24,8 @@ require("./routes/html-routes.js")(app);
 
 // sync sequelize models
 db.sequelize.sync({force: true}).then(()=>{
-    // create some default shelters
-    db.Shelter.bulkCreate([
+    // create some default shops
+    db.Shop.bulkCreate([
         {
             name: 'American Humane',
             email: 'info@americanhumane.org',
@@ -65,7 +65,7 @@ db.sequelize.sync({force: true}).then(()=>{
     ]);
 
     // create some default users
-    db.Parent.bulkCreate([
+    db.User.bulkCreate([
         {
             name: 'Peter Washington',
             email: 'peter@mail.com',

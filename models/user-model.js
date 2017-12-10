@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes)=>{
-    var Shelter = sequelize.define('Shelter', {
+    var User = sequelize.define('User', {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes)=>{
         }
     });
   
-    return Shelter;
+    return User;
 };

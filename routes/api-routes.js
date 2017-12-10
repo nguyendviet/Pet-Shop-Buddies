@@ -6,14 +6,14 @@ var key = require('../config/keys.js');
 const saltRounds = 10;
 
 module.exports = (app)=>{
-    // sign up - parent
+    // sign up - user
     app.post('/signup', (req, res)=>{
         var usertype = req.body.usertype;
 
-        // if user sign up as parent
-        if (usertype == 'parent') {
+        // if user sign up as user
+        if (usertype == 'user') {
             // look in database if email registered
-            db.Parent.findAll({
+            db.User.findAll({
                 where: {
                     email: req.body.email
                 }
@@ -41,7 +41,7 @@ module.exports = (app)=>{
                             if (err) throw err;
                             
                             // save user's info into database
-                            db.Parent.create({
+                            db.User.create({
                                 name: req.body.name,
                                 email: req.body.email,
                                 password: hash,
@@ -51,7 +51,7 @@ module.exports = (app)=>{
                                 longitude: geoLng
                             })
                             .then((result)=>{
-                                var token = jwt.sign({usertype: 'parent', id: result.id}, key.secret, {expiresIn: '1h'});
+                                var token = jwt.sign({usertype: 'user', id: result.id}, key.secret, {expiresIn: '1h'});
                                 var name = result.name;
                                 // send token to client
                                 res.send({token: token, name: name});
@@ -61,10 +61,10 @@ module.exports = (app)=>{
                 }
             });
         }
-        // if user sign up as shelter
+        // if user sign up as shop
         else {
             // look in database if email registered
-            db.Shelter.findAll({
+            db.Shop.findAll({
                 where: {
                     email: req.body.email
                 }
@@ -92,7 +92,7 @@ module.exports = (app)=>{
                             if (err) throw err;
                             
                             // save user's info into database
-                            db.Shelter.create({
+                            db.Shop.create({
                                 name: req.body.name,
                                 email: req.body.email,
                                 password: hash,
@@ -102,7 +102,7 @@ module.exports = (app)=>{
                                 longitude: geoLng
                             })
                             .then((result)=>{
-                                var token = jwt.sign({usertype: 'shelter', id: result.id}, key.secret, {expiresIn: '1h'});
+                                var token = jwt.sign({usertype: 'shop', id: result.id}, key.secret, {expiresIn: '1h'});
                                 var name = result.name;
                                 // send token to client
                                 res.send({token: token, name: name});
@@ -118,28 +118,28 @@ module.exports = (app)=>{
     app.post('/login', (req, res)=>{
         var password = req.body.password;
 
-        // search parent table for entered email
-        db.Parent.findAll({
+        // search user table for entered email
+        db.User.findAll({
             where: {
                 email: req.body.email
             }
         })
-        .then((parent)=>{
-            // if email not registered as parent
-            if (parent.length === 0) {
-                // look in shelter table
-                db.Shelter.findAll({
+        .then((user)=>{
+            // if email not registered as user
+            if (user.length === 0) {
+                // look in shop table
+                db.Shop.findAll({
                     where: {
                         email: req.body.email
                     }
-                }).then((shelter)=>{
-                    // if email not registered as shelter also
-                    if (shelter.length === 0) {
+                }).then((shop)=>{
+                    // if email not registered as shop also
+                    if (shop.length === 0) {
                         res.status(401).send({message: 'User not found.'});
                     }
-                    // if email registered as shelter
+                    // if email registered as shop
                     else {
-                        var hash = shelter[0].password;
+                        var hash = shop[0].password;
                         
                         // compare entered password with saved password
                         bcrypt.compare(password, hash, (err, match)=>{
@@ -149,9 +149,9 @@ module.exports = (app)=>{
                                 res.status(401).send({message: 'Wrong password.'});
                             }
                             else {
-                                var id = shelter[0].id;
-                                var name = shelter[0].name;
-                                var token = jwt.sign({usertype: 'shelter', id: id}, key.secret, {expiresIn: '1h'});
+                                var id = shop[0].id;
+                                var name = shop[0].name;
+                                var token = jwt.sign({usertype: 'shop', id: id}, key.secret, {expiresIn: '1h'});
 
                                 // send token to client
                                 res.send({token: token, name: name});
@@ -160,9 +160,9 @@ module.exports = (app)=>{
                     }
                 });
             }
-            // if email registered as parent
+            // if email registered as user
             else {
-                var hash = parent[0].password;
+                var hash = user[0].password;
 
                 // compare entered password with saved password
                 bcrypt.compare(password, hash, (err, match)=>{
@@ -172,9 +172,9 @@ module.exports = (app)=>{
                         res.status(401).send({message: 'Wrong password.'});
                     }
                     else {
-                        var id = parent[0].id;
-                        var name = parent[0].name;
-                        var token = jwt.sign({usertype: 'parent', id: id}, key.secret, {expiresIn: '1h'});
+                        var id = user[0].id;
+                        var name = user[0].name;
+                        var token = jwt.sign({usertype: 'user', id: id}, key.secret, {expiresIn: '1h'});
 
                         // send token to client
                         res.send({token: token, name: name});
@@ -212,9 +212,9 @@ module.exports = (app)=>{
                 bcrypt.hash(newPassword, saltRounds, (errEncrypt, hash)=>{
                     if (errEncrypt) throw errEncrypt;
                     
-                    // save encrypted password to parent table if user is a parent
-                    if (usertype == 'parent') {
-                        db.Parent.update(
+                    // save encrypted password to user table if user is a user
+                    if (usertype == 'user') {
+                        db.User.update(
                             {
                                 password: hash
                             }, {
@@ -223,13 +223,13 @@ module.exports = (app)=>{
                                 }
                             }
                         )
-                        .then((parent)=>{
-                            res.json(parent);
+                        .then((user)=>{
+                            res.json(user);
                         });
                     }
-                    // save encrypted password to shelter table if user is a shelter
+                    // save encrypted password to shop table if user is a shop
                     else {
-                        db.Shelter.update(
+                        db.Shop.update(
                             {
                                 password: hash
                             },{
@@ -238,8 +238,8 @@ module.exports = (app)=>{
                                 }
                             }
                         )
-                        .then((shelter)=>{
-                            res.json(shelter);
+                        .then((shop)=>{
+                            res.json(shop);
                         });
                     }
                 }); 
@@ -265,8 +265,8 @@ module.exports = (app)=>{
                 var usertype = decoded.usertype;
                 var userId = decoded.id;
 
-                if (usertype == 'parent') {
-                    db.Parent.destroy({
+                if (usertype == 'user') {
+                    db.User.destroy({
                         where: {
                             id: userId
                         }
@@ -276,7 +276,7 @@ module.exports = (app)=>{
                     })
                 }
                 else {
-                    db.Shelter.destroy({
+                    db.Shop.destroy({
                         where: {
                             id: userId
                         }
@@ -311,41 +311,41 @@ module.exports = (app)=>{
 
                     var usertype = decoded.usertype;
 
-                    // user is a parent
-                    if (usertype == 'parent') {
-                        db.Parent.findAll({
+                    // user is a user
+                    if (usertype == 'user') {
+                        db.User.findAll({
                             where: {
                                 id: decoded.id
                             }
                         })
-                        .then((parent)=>{
-                            var parentName = parent[0].name;
-                            var parentLat = parent[0].latitude;
-                            var parentLong = parent[0].longitude;
+                        .then((user)=>{
+                            var userName = user[0].name;
+                            var userLat = user[0].latitude;
+                            var userLong = user[0].longitude;
                             var userObj = {
-                                name: parentName,
-                                latitude: parentLat,
-                                longitude: parentLong,
+                                name: userName,
+                                latitude: userLat,
+                                longitude: userLong,
                             };
 
                             res.render('user', userObj);
                         });
                     }
-                    // user is a shelter
+                    // user is a shop
                     else {
-                        db.Shelter.findAll({
+                        db.Shop.findAll({
                             where: {
                                 id: decoded.id
                             }
                         })
-                        .then((shelter)=>{
-                            var shelterName = shelter[0].name;
-                            var shelterLat = shelter[0].latitude;
-                            var shelterLong = shelter[0].longitude;
+                        .then((shop)=>{
+                            var shopName = shop[0].name;
+                            var shopLat = shop[0].latitude;
+                            var shopLong = shop[0].longitude;
                             var userObj = {
-                                name: shelterName,
-                                latitude: shelterLat,
-                                longitude: shelterLong,
+                                name: shopName,
+                                latitude: shopLat,
+                                longitude: shopLong,
                             };
 
                             res.render('user', userObj);
@@ -373,17 +373,17 @@ module.exports = (app)=>{
 
                 var usertype = decoded.usertype;
 
-                // user is a parent
-                if (usertype == 'parent') {
-                    db.Shelter.findAll({})
-                    .then((shelters)=>{
-                        res.json(shelters)
+                // user is a user
+                if (usertype == 'user') {
+                    db.Shop.findAll({})
+                    .then((shops)=>{
+                        res.json(shops)
                     });
                 }
                 else {
-                    db.Parent.findAll({})
-                    .then((parents)=>{
-                        res.json(parents)
+                    db.User.findAll({})
+                    .then((users)=>{
+                        res.json(users)
                     });
                 }
             });

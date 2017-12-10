@@ -1,5 +1,5 @@
 html {
-    background: url(../img/bg-meow.png) no-repeat center center fixed; 
+    background: url(../img/bg-petshop.png) no-repeat center center fixed; 
     -webkit-background-size: cover; 
     -moz-background-size: cover; 
     -o-background-size: cover; 
@@ -10,7 +10,7 @@ body {
     background: none;
 }
 
-.user-account, .form-parent, .form-shelter, .shelter-title, .user-setting, .confirm-delete {
+.user-account, .form-user, .form-shop, .shop-title, .user-setting, .confirm-delete {
 	display: none;
 }
 

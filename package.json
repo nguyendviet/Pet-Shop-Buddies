@@ -1,7 +1,7 @@
 {
-  "name": "save-meow",
+  "name": "pet-shop-buddies",
   "version": "1.0.0",
-  "description": "A full stack app that helps people save cats from being put down.",
+  "description": "A full stack app that connect pet owners and pet shops.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nguyendviet/Save-Meow.git"
+    "url": "git+https://github.com/nguyendviet/Pet-Shop-Buddies.git"
   },
   "keywords": [
     "mysql",
@@ -20,9 +20,9 @@
   "author": "Viet Nguyen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nguyendviet/Save-Meow/issues"
+    "url": "https://github.com/nguyendviet/Pet-Shop-Buddies/issues"
   },
-  "homepage": "https://github.com/nguyendviet/Save-Meow#readme",
+  "homepage": "https://github.com/nguyendviet/Pet-Shop-Buddies#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
