@@ -4,7 +4,7 @@
 A full stack app that connects pet owners with pet care services.
 
 ### Demo
-* Heroku: [Pet Shop Buddies]()
+* Heroku: [Pet Shop Buddies](https://pet-shop-buddies.herokuapp.com/)
 <img src="" width="400"/>
 
 ### Logic
