@@ -10,6 +10,13 @@ body {
     background: none;
 }
 
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    color: white;
+}
+
 .user-account, .form-user, .form-shop, .shop-title, .user-setting, .confirm-delete {
 	display: none;
 }
