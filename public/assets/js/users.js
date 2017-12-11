@@ -116,8 +116,6 @@ function authUser(data) {
         headers: tokenObj
     })
     .done((content)=>{
-        // window.location.replace('/user/' + name);
-
         $('body').html(content);
         $.ajax({
             url: '/map',
