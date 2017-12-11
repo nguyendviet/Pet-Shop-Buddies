@@ -38,8 +38,8 @@ $ mocha <test-file-name>
 ## Author
 * **Viet Nguyen** - *Solo developer*
 * In memory of my cat: Athena (2015 - 2016)
-<img src="" width="400"/>
-You can read more about her [here](https://athenacat.blogspot.com/2015/10/athena_4.html)
+<img src="https://github.com/nguyendviet/Pet-Shop-Buddies/blob/master/public/assets/img/athena.png" width="400"/>
+You can read more about her <a href="https://athenacat.blogspot.com/2015/10/athena_4.html">here</a>.
 
 ### Disclaimers:
 * All default locations (including names, addresses and phone numbers) are public places (museums, animal shelters...). They're for testing purposes.
