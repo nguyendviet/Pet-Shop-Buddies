@@ -1,3 +1,4 @@
+/* tags */
 html {
     background: url(../img/bg-petshop.png) no-repeat center center fixed; 
     -webkit-background-size: cover; 
@@ -8,23 +9,18 @@ html {
 
 body {
     background: none;
+    font-family: 'Bree Serif', serif;
 }
 
-.footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    color: white;
-}
-
-.user-account, .form-user, .form-shop, .shop-title, .user-setting, .confirm-delete {
-	display: none;
+button, input[type="submit"], input[type="text"], input[type="email"], input[type="tel"] {
+    font-family: 'Bree Serif', serif;
 }
 
 .top-bar, .big-title, .signUp, .logIn, .user-setting, .delete-account {
     background: rgba(255, 255, 255, 0.7);
 }
 
+/* classes */
 .top-bar {
     width: 100%;
     margin: 0;
@@ -32,6 +28,10 @@ body {
 
 .top-bar a {
     color: black;
+}
+
+.user-account, .form-user, .form-shop, .shop-title, .user-setting, .confirm-delete {
+	display: none;
 }
 
 .big-title {
@@ -43,6 +43,18 @@ body {
     border-radius: 1em;
 }
 
+.font-lily {
+    font-family: 'Lily Script One', cursive;
+}
+
+.footer {
+    width: 100%;
+    bottom: 0;
+    margin-top: 5%;
+    color: white;
+}
+
+/* ids */
 #map {
     width: 100%;
     height: 500px;

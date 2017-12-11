@@ -67,58 +67,31 @@ db.sequelize.sync({force: true}).then(()=>{
     // create some default users
     db.User.bulkCreate([
         {
-            name: 'Peter Washington',
-            email: 'peter@mail.com',
-            password: 'peterpass',
-            address: '1416 12th St NW, Washington, DC 20005',
-            phone: '2022347387',
-            latitude: 38.9090194,
-            longitude: -77.0305502
+            name: 'Nat Geo',
+            email: 'nat@example.com',
+            password: 'passnat',
+            address: '1145 17th St NW, Washington, DC 20036',
+            phone: '2028577700',
+            latitude: 38.9017561,
+            longitude: -77.0339626
         },
         {
-            name: 'Pandora Angryladies',
-            email: 'pan@mail.com',
-            password: 'angrypan',
-            address: '1536 16th St NW, Washington, DC 20036',
-            phone: '2024837382',
-            latitude: 38.9109778,
-            longitude: -77.0390737
+            name: 'Smith Post',
+            email: 'smith@example.com',
+            password: 'passsmith',
+            address: '2 Massachusetts Ave NE, Washington, DC 20002',
+            phone: '2026335555',
+            latitude: 38.8952824,
+            longitude: -77.0197608
         },
         {
-            name: 'Adam Morgan',
-            email: 'adam@mail.com',
-            password: 'adampass',
-            address: '2112 18 St NW #1, Washington, DC 20009',
-            phone: '2026387470',
-            latitude: 38.9183334,
-            longitude: -77.0440605
-        },
-        {
-            name: 'David Veternari',
-            email: 'david@mail.com',
-            password: 'davidpass',
-            address: '2022 P St NW, Washington, DC 20036',
-            phone: '2024662211',
-            latitude: 38.9094284,
-            longitude: -77.0480979
-        },
-        {
-            name: 'Harry Horseman',
-            email: 'harry@mail.com',
-            password: 'harrypass',
-            address: '1000 29th St NW # T100, Washington, DC 20007',
-            phone: '2029650500',
-            latitude: 38.9029249,
-            longitude: -77.0604903
-        },
-        {
-            name: 'Cadie Arena',
-            email: 'cadie@mail.com',
-            password: 'cadiepass',
-            address: '601 F St NW, Washington, DC 20004',
-            phone: '2026283200',
-            latitude: 38.898129,
-            longitude: -77.0231517
+            name: 'Albert Einstein',
+            email: 'a;bert@example.com',
+            password: 'passalbert',
+            address: '2101 Constitution Ave NW, Washington, DC 20418',
+            phone: '2023342000',
+            latitude: 38.8930845,
+            longitude: -77.0477411
         }
     ]);
     
