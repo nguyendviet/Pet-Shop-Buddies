@@ -39,7 +39,8 @@ $ mocha <test-file-name>
 * **Viet Nguyen** - *Solo developer*
 * In memory of my cat: Athena (2015 - 2016)
 <img src="" width="400"/>
+You can read more about her [here](https://athenacat.blogspot.com/2015/10/athena_4.html)
 
-### Disclaimer:
+### Disclaimers:
 * All default locations (including names, addresses and phone numbers) are public places (museums, animal shelters...). They're for testing purposes.
 * I don't claim to have the original idea of making an app that connects pet owners with pet shops or shelters with potential pet owners.
