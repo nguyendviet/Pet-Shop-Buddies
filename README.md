@@ -34,7 +34,7 @@ $ mocha <test-file-name>
 ## Technologies
 * MySQL, Express, NodeJS.
 * npm: mocha, chai, brcypt, jsonwebtoken, handlebars, body-parser.
-* jQuery, Bootstrap 4.
+* Google Geocoding, jQuery, Bootstrap 4.
 
 ## Author
 * **Viet Nguyen** - *Solo developer*
