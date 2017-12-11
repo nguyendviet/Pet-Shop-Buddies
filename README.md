@@ -5,7 +5,8 @@ A full stack app that connects pet owners with pet care services.
 
 ### Demo
 * Heroku: [Pet Shop Buddies](https://pet-shop-buddies.herokuapp.com/)
-<img src="" width="400"/>
+<img src="https://github.com/nguyendviet/Pet-Shop-Buddies/blob/master/public/assets/img/pet-shop-01.png" width="400"/>
+<img src="https://github.com/nguyendviet/Pet-Shop-Buddies/blob/master/public/assets/img/pet-shop-02.png" width="400"/>
 
 ### Logic
 * If user signs up as a pet owner (user), the app will log the user in, show the map with the user as a red marker and nearby pet shops as blue markers, vice versa. 
@@ -40,5 +41,5 @@ $ mocha <test-file-name>
 <img src="" width="400"/>
 
 ### Disclaimer:
-* All default names, addresses and phone numbers are public places (museums, animal shelters...). They're for testing purposes.
+* All default locations (including names, addresses and phone numbers) are public places (museums, animal shelters...). They're for testing purposes.
 * I don't claim to have the original idea of making an app that connects pet owners with pet shops or shelters with potential pet owners.
