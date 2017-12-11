@@ -30,6 +30,7 @@ Go to folder /test and run:
 ```
 $ mocha <test-file-name>
 ```
+
 ## Technologies
 * MySQL, Express, NodeJS.
 * npm: mocha, chai, brcypt, jsonwebtoken, handlebars, body-parser.
