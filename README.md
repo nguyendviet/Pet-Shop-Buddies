@@ -6,7 +6,7 @@ A full stack app that connects pet owners with pet care services.
 ### Demo
 * Heroku: [Pet Shop Buddies](https://pet-shop-buddies.herokuapp.com/)
 
-<img src="https://github.com/nguyendviet/Pet-Shop-Buddies/blob/master/public/assets/img/pet-shop-01.png" width="400"/> <img src="https://github.com/nguyendviet/Pet-Shop-Buddies/blob/master/public/assets/img/pet-shop-02.png" width="400"/>
+<img src="https://media.giphy.com/media/l49JBZW1Y3TSc90RO/giphy.gif" width="800"/>
 
 ### Logic
 * If user signs up as a pet owner (user), the app will log the user in, show the map with the user as a red marker and nearby pet shops as blue markers, vice versa. 
