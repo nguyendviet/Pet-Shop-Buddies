@@ -26,10 +26,17 @@ $ npm install --save mysql2
 ```
 
 ## Test
+Keep the app running.
+Use a new terminal or tab.
 Go to folder /test and run:
 ```
 $ mocha <test-file-name>
 ```
+If encounter problems like: `command not found`, run:
+```
+$ npm install -g mocha
+```
+to install mocha globally. You might need to run it with sudo if you use Linux.
 
 ## Technologies
 * MySQL, Express, NodeJS.
